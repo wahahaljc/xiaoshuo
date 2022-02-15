@@ -3,35 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+</head>
+<title>对话框</title>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    html, body,.container {height: 100%; }
+    .box{
+        max-width: 200px;
+        height:auto;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 5px;
+        background: orange;
+        margin: 10px auto;
+        position: relative;
+
+    }
+    .box:after{
+        content: "\200B";
+        display: block;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-right: 10px solid orange;
+        position: absolute;
+        left: -20px;
+        top: 3px;
+    }
+    .box1{
+        max-width: 170px;
+        height:auto;
+        line-height: 40px;
+        background: green;
+        margin: 10px auto;
+        border-radius: 5px;
+        text-align: center;
+        position: relative;
+    }
+    .box1:after{
+        content: "\200B";
+        display: block;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-left: 10px solid green;
+        position: absolute;
+        right: -20px;
+        top: 3px;
+    }
+</style>
 </head>
 <body>
-<h1>微信扫码登录</h1>
-<button onclick="getQrCode()" style="width: 100px;height: 50px;">获取二维码</button>
-<br>
-<img src="" id="qrCodeImgId"  style="width: 300px;height: 300px;display: none">
+<div style="height: 80%;overflow: auto" id="message">
+</div>
+<div style=" text-align: center;">
+    <input type="text" id="text">
+    <button onclick="send()">发送</button>
+</div>
 </body>
-<script>
-    //======================================微信扫码登录方式一=========================================================
-    // 存储二维码标识,用于验证是否扫码成功
-    var sceneStr;
-    var t;
-    // 获取登录二维码
-    function getQrCode(){
-        $.get('qrCodeFirstLogin/getQrCode',function (data) {
-            console.log("=============getQrCode=======================");
-            console.log(data);
-            if(data.code == 200){
-                sceneStr = data.data.sceneStr;
-                // 二维码获取
-                $('#qrCodeImgId').attr('src',"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+data.data.ticket);
-                $('#qrCodeImgId').show();
-                // 定时任务监听是否扫码成功
-                t = window.setInterval(getOpenId,3000);
-            }else{
-                alert(data.msg);
-            }
 
-        });
+<script type="text/javascript">
+    var websocket = null;
+    var cip=returnCitySN["cip"].split(".").join("");
+
+    //判断当前浏览器是否支持WebSocket
+    if('WebSocket' in window){
+        websocket = new WebSocket("ws://10.0.0.153:8080/xiaoshuo/websocket/"+cip);
+    }
+    else{
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function(){
+        setMessageInnerHTML("error1");
+    };
+
+    //连接成功建立的回调方法
+    // websocket.onopen = function(event){
+    //     setMessageInnerHTML("open");
+    // }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(event){
+        console.log(event)
+        setMessageInnerHTML(event.data);
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function(){
+        setMessageInnerHTML("close");
+    }
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function(){
+        websocket.close();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML){
+        document.getElementById('message').innerHTML +="<p class=\"box\">"+ innerHTML + "</p>";
+    }
+
+    //关闭连接
+    function closeWebSocket(){
+        websocket.close();
+    }
+
+    //发送消息
+    function send(){
+        var message = document.getElementById('text').value;
+        websocket.send(message);
+        document.getElementById('text').value="";
     }
 </script>
+</body>
 </html>

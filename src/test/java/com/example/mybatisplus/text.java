@@ -5,33 +5,52 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.*;
 
 @SpringBootTest
 public class text {
 
     @Test
     public void test1() {
-       int[][] arr=new int[5][5];
-       int sum=1;
-       for (int i=0;i<arr.length;i++){
-           for (int j=i,k=0;j>=0;j--){
-               arr[j][k++]=sum++;
-           }
-       }
-       for (int[] arrs:arr){
-           for (int i:arrs){
-               if(i!=0){
-                   System.out.print(i+"\t");
-               }
-           }
-           System.out.println();
-       }
+
+      try {
+          Class menu=Class.forName("com.example.mybatisplus.entity.Menu");
+          try {
+              //通过newinstance实例化
+              Object obj=menu.newInstance();
+              //取得setName方法，方法中有一个String类型的形参
+              Method myname=menu.getDeclaredMethod("setTitle", String.class);
+              //通过invoke执行obj的myname方法，并传入String实参"小明"
+              myname.invoke(obj, "小明");
+
+              //得到并执行obj的toString（）方法
+              Method msg=menu.getDeclaredMethod("getTitle");
+              System.out.println(msg.invoke(obj));
+
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }catch (Exception e){
+
+      }
     }
+
+    @Test
+    public void test2() throws IOException {
+        Map<String,String> a= new LinkedHashMap<>();
+        a.put("1","1");
+        a.put("2","2");
+        for(Map.Entry<String,String> m:a.entrySet()){
+
+        }
+        System.out.println(a.toString());
+    }
+
 
     @Test
     public void a() throws IOException {

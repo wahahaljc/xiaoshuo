@@ -1,10 +1,6 @@
 package com.example.mybatisplus.controller;
 
 
-import com.example.mybatisplus.service.impl.NovelContentService;
-import com.example.mybatisplus.utils.baseResult.BaseErrMsg;
-import com.example.mybatisplus.utils.baseResult.BaseResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +21,6 @@ import java.io.IOException;
 @RequestMapping("/novelContent")
 public class NovelContentController {
 
-    @Autowired
-    private NovelContentService novelContentService;
-
-    @GetMapping("getNovelContent")
-    @ResponseBody
-    public BaseResult getNovelContent(String url,Integer nid){
-        if (!novelContentService.insertNovelContent(url,nid)){
-            return new BaseResult(500,"抓取成功！！！");
-        }
-        return new BaseResult(BaseErrMsg.DEFAULT_SUCCESS_MESSAGE);
-    }
 
     /*
      * 下载

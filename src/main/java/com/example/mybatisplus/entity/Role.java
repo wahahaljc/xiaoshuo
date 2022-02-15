@@ -19,6 +19,10 @@ public class Role implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    public int a(){
+        return 0;
+    }
+
     /**
      * 角色名字
      */

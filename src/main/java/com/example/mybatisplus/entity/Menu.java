@@ -13,12 +13,13 @@ import java.io.Serializable;
  * @author ljc
  * @since 2021-04-03
  */
-public class Menu implements Serializable {
+public class Menu extends Role implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
 
     /**
      * 父ID
