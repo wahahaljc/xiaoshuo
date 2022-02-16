@@ -1,9 +1,12 @@
 package com.example.mybatisplus.controller;
 
 import com.example.mybatisplus.service.ClimbService;
+import com.example.mybatisplus.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
@@ -22,13 +25,13 @@ public class ClimbController {
         return "test2";
     }
 
-    @GetMapping("asd")
+    @PostMapping("downXSContent")
     @ResponseBody
-    public void urlClimbText(HttpServletResponse response, String url,String name) {
+    public void downXSContent(HttpServletResponse response,String url, String fileName,String urlName) {
         StringBuffer text=new StringBuffer();
 
         try {
-            Map<String,String> map=climbService.urlClimbText(url);
+            Map<String,String> map=climbService.urlClimbText(url,urlName);
             for(Map.Entry<String,String> m:map.entrySet()){
                 text.append(m.getKey()+"\r\n");
                 text.append(m.getValue()+"\r\n");
@@ -43,7 +46,7 @@ public class ClimbController {
         response.setContentType("text/plain");
         //设置文件的名称和格式
         response.addHeader("Content-Disposition","attachment;filename="
-                + genAttachmentFileName( name, "JSON_FOR_UCC_")//设置名称格式，没有这个中文名称无法显示
+                + genAttachmentFileName(StringUtils.isNotEmpty(fileName)?fileName:String.valueOf(System.currentTimeMillis()), "JSON_FOR_UCC_")//设置名称格式，没有这个中文名称无法显示
                 + ".txt");
         BufferedOutputStream buff = null;
         ServletOutputStream outStr = null;

@@ -42,13 +42,8 @@ public class text {
 
     @Test
     public void test2() throws IOException {
-        Map<String,String> a= new LinkedHashMap<>();
-        a.put("1","1");
-        a.put("2","2");
-        for(Map.Entry<String,String> m:a.entrySet()){
-
-        }
-        System.out.println(a.toString());
+       String url="http://www.biquju.com/40_40237/23586638.html";
+        System.out.println();
     }
 
 

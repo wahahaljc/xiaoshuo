@@ -10,8 +10,8 @@ import java.util.LinkedHashMap;
 @Service
 public class ClimbServiceImpl implements ClimbService {
 
-    public LinkedHashMap<String, String> urlClimbText(String url) throws ClassNotFoundException {
-        Class menu = Class.forName("com.example.mybatisplus.parse.BqgParse");
+    public LinkedHashMap<String, String> urlClimbText(String url,String urlName) throws ClassNotFoundException {
+        Class menu = Class.forName("com.example.mybatisplus.parse.WebsiteTemplates");
         LinkedHashMap<String, String> result_4 = null;
         try {
             //通过newinstance实例化
@@ -20,7 +20,7 @@ public class ClimbServiceImpl implements ClimbService {
             cArg[0] = String.class;
             cArg[1] = LinkedHashMap.class;
             //取得setName方法，方法中有一个String类型的形参
-            Method myname = menu.getDeclaredMethod("jlxswUrl", cArg);
+            Method myname = menu.getDeclaredMethod(urlName, cArg);
             //通过invoke执行obj的myname方法，并传入String实参"小明"
   /*          myname.invoke(obj, url);*/
 

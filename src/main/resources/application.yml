@@ -1,3 +1,6 @@
+thymeleaf:
+  mode: LEGACYHTML5
+  cache: false
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,8 +21,9 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 server:
-  port: 8080
+  port: 9805
   servlet:
     context-path: /xiaoshuo
+
 
 

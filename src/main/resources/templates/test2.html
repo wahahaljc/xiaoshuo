@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-文件名称:<input type="text" name="fileName">url:<input type="text" name="url">
-<br/>
-<button>下载</button>
+<form action="/xiaoshuo/downXSContent" method="post">
+    文件名称:<input type="text" name="fileName" style="width: 150px"><br>
+    网站:<select name="urlName" style="width: 150px">
+    <option value="luoqiuzwUrl">https://www.luoqiuzw.com</option>
+    <option value="jlxswUrl">https://www.jlxsw.com</option>
+    <option value="jlxswUrl">https://www.luoqiuzw.com</option>
+    <option value="pyp5Url">https://www.pyp5Url.com</option>
+</select><br>
+    url:<input type="text" name="url" style="width: 300px">
+    <br/>
+    <button id="down" type="submit">下载</button>
+</form>
+<script th:src="@{js/jquery.min.js}"></script>
+<script type="text/javascript">
+</script>
 </body>
 </html>
